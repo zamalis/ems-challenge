@@ -3,31 +3,28 @@
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS timesheets;
 
--- To add a field to a table do
--- CREATE TABLE table_name (
---     id INTEGER PRIMARY KEY AUTOINCREMENT,
---     nullable_field TEXT,
---     non_nullable_field TEXT NOT NULL,
---     numeric_field INTEGER,
---     unique_field TEXT UNIQUE,
---     unique_non_nullable_field TEXT NOT NULL UNIQUE,
---     date_field DATE,
---     datetime_field DATETIME
--- );
-
 -- Create employees table
 CREATE TABLE employees (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    full_name TEXT NULL
-    -- Rest of the fields
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone_number TEXT NOT NULL,
+    date_of_birth TEXT NOT NULL,
+    job_title TEXT NOT NULL,
+    department TEXT NOT NULL,
+    salary INTEGER NOT NULL,
+    start_contract TEXT NOT NULL,
+    end_contract TEXT NOT NULL,
+    photo_url TEXT NOT NULL
 );
 
 -- Create timesheets table
 CREATE TABLE timesheets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    -- Rest of the fields
-    start_time DATETIME NOT NULL,
-    end_time DATETIME NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
+    summary TEXT NOT NULL,
     employee_id INTEGER NOT NULL,
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
