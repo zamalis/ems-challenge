@@ -16,7 +16,7 @@ interface EmployeeRaw {
   photoUrl: string;
 }
 
-interface Employee {
+export interface Employee {
   id: number;
   firstName: string;
   lastName: string;

@@ -1,12 +1,10 @@
 import {
-  Form,
   redirect,
   useActionData,
   useLoaderData,
   type ActionFunction,
 } from "react-router";
-import ErrorContainer from "~/components/error-container";
-import InputField from "~/components/input-field";
+import TimesheetForm from "~/components/timesheet-form";
 import {
   getAllEmployeesQuery,
   getTimesheetByIdQuery,
@@ -17,7 +15,6 @@ import type {
   UpdateTimesheetFormSchema,
 } from "~/interfaces";
 import { mapUpdateTimesheetForm } from "~/mappers";
-import { getFormattedCalendarDateTime } from "~/utils/dates/date-utils";
 import { validateUpdateTimesheetForm } from "~/validators";
 
 interface ActionResult {
@@ -78,81 +75,11 @@ export default function TimesheetPage() {
           <h1 className="text-2xl font-bold mb-6 text-center">
             Update Timesheet
           </h1>
-          <Form method="post">
-            <div className="flex flex-col gap-4">
-              {/* Employee select field with label */}
-              <div>
-                <label
-                  htmlFor="employeeId"
-                  className="block text-gray-700 font-medium"
-                >
-                  Employee
-                </label>
-                <select
-                  name="employeeId"
-                  id="employeeId"
-                  className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                >
-                  {(employees || []).map((employee) => (
-                    <option key={employee.id} value={employee.id}>
-                      {employee.firstName} {employee.lastName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <InputField
-                label="Start Time"
-                id="startTime"
-                name="startTime"
-                type="datetime-local"
-                defaultValue={getFormattedCalendarDateTime(timesheet.startTime)}
-                required
-              />
-              <InputField
-                label="End Time"
-                id="endTime"
-                name="endTime"
-                type="datetime-local"
-                defaultValue={getFormattedCalendarDateTime(timesheet.endTime)}
-                required
-              />
-
-              <InputField
-                label="Summary"
-                id="summary"
-                name="summary"
-                type="text"
-                defaultValue={timesheet.summary}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="mt-6 w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md"
-            >
-              Update Timesheet
-            </button>
-          </Form>
-
-          {/* Validation Errors */}
-          {actionData?.validationResult?.isValid === false && (
-            <ErrorContainer>
-              {Object.values(actionData.validationResult?.errors).map(
-                (error, index) => (
-                  <h4 key={index}>{error}</h4>
-                )
-              )}
-            </ErrorContainer>
-          )}
-
-          {/* General Error */}
-          {actionData?.error && (
-            <ErrorContainer>
-              <h4>{actionData?.error}</h4>
-            </ErrorContainer>
-          )}
+          <TimesheetForm
+            employees={employees}
+            actionData={actionData}
+            timesheet={timesheet}
+          />
         </div>
         <ul className="flex justify-center gap-10">
           <li>

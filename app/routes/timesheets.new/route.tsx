@@ -1,6 +1,5 @@
-import { useLoaderData, Form, redirect, useActionData } from "react-router";
+import { useLoaderData, redirect, useActionData } from "react-router";
 import type { ActionFunction } from "react-router";
-import InputField from "~/components/input-field";
 import { createTimesheetQuery, getAllEmployeesQuery } from "~/db/queries";
 import type {
   CreateTimesheetFormSchema,
@@ -8,7 +7,7 @@ import type {
 } from "~/interfaces";
 import { mapCreateTimesheetForm } from "~/mappers";
 import { validateCreateETimesheetForm } from "~/validators";
-import ErrorContainer from "~/components/error-container";
+import TimesheetForm from "~/components/timesheet-form";
 
 interface ActionResult {
   validationResult?: FormValidationResult<CreateTimesheetFormSchema>;
@@ -46,78 +45,7 @@ export default function NewTimesheetPage() {
         <h1 className="text-2xl font-bold mb-6 text-center">
           Create New Timesheet
         </h1>
-        <Form method="post">
-          <div className="flex flex-col gap-4">
-            {/* Employee select field with label */}
-            <div>
-              <label
-                htmlFor="employeeId"
-                className="block text-gray-700 font-medium"
-              >
-                Employee
-              </label>
-              <select
-                name="employeeId"
-                id="employeeId"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              >
-                {(employees || []).map((employee) => (
-                  <option key={employee.id} value={employee.id}>
-                    {employee.firstName} {employee.lastName}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <InputField
-              label="Start Time"
-              id="startTime"
-              name="startTime"
-              type="datetime-local"
-              required
-            />
-            <InputField
-              label="End Time"
-              id="endTime"
-              name="endTime"
-              type="datetime-local"
-              required
-            />
-
-            <InputField
-              label="Summary"
-              id="summary"
-              name="summary"
-              type="text"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="mt-6 w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md"
-          >
-            Create Timesheet
-          </button>
-        </Form>
-
-        {/* Validation Errors */}
-        {actionData?.validationResult?.isValid === false && (
-          <ErrorContainer>
-            {Object.values(actionData.validationResult?.errors).map(
-              (error, index) => (
-                <h4 key={index}>{error}</h4>
-              )
-            )}
-          </ErrorContainer>
-        )}
-
-        {/* General Error */}
-        {actionData?.error && (
-          <ErrorContainer>
-            <h4>{actionData?.error}</h4>
-          </ErrorContainer>
-        )}
+        <TimesheetForm employees={employees} actionData={actionData} />
       </div>
       <ul className="flex justify-center gap-10">
         <li>

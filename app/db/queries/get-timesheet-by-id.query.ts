@@ -9,7 +9,7 @@ interface TimesheetRaw {
   employeeId: number;
 }
 
-interface Timesheet {
+export interface Timesheet {
   id: number;
   startTime: Date;
   endTime: Date;
